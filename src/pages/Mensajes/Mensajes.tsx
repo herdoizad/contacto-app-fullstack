@@ -35,7 +35,7 @@ export const Mensajes = () => {
         </h2>
         <button
           onClick={abrirModal}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
+          className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition"
         >
           <FiPlus className="text-lg" />
           <span className="text-sm sm:text-base">Agregar</span>
