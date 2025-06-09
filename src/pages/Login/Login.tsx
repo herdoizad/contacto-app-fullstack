@@ -6,23 +6,27 @@ import { useAuth } from "../../context/AuthContext";
 import { toast, ToastContainer } from "react-toastify";
 
 export const Login = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginForm>();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>();
   const { login } = useAuth();
   const navigate = useNavigate();
 
   const onSubmit = async (data: LoginForm) => {
-  try {
+    try {
       const res = await loginUsuario(data);
       login(res.usuario);
       toast.success("Inicio de sesión exitoso", {
         position: "top-right",
         autoClose: 1000,
       });
-      setTimeout(() => navigate("/contacto"), 1000);
+      setTimeout(() => navigate("/mensaje"), 1000);
     } catch (err) {
       toast.error("Usuario o clave incorrecta", {
         position: "top-right",
-        autoClose: 3000
+        autoClose: 3000,
       });
     }
   };
@@ -30,21 +34,25 @@ export const Login = () => {
   return (
     <div className="max-w-md mx-auto mt-16 p-6 bg-white rounded-xl shadow-md">
       <h2 className="text-xl font-bold mb-4 text-center">Iniciar Sesión</h2>
-      <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        className="w-full max-w-md mx-auto space-y-4 p-4 sm:p-6"
+      >
         <div>
           <input
             className="w-full border px-3 py-2 rounded-xl"
             placeholder="Correo"
             {...register("email", {
-                  required: "Correo requerido",
-                  pattern: {
-                    value: /^\S+@\S+\.\S+$/,
-                    message: "Correo inválido"
-                  }
-                })
-            }
+              required: "Correo requerido",
+              pattern: {
+                value: /^\S+@\S+\.\S+$/,
+                message: "Correo inválido",
+              },
+            })}
           />
-          {errors.email && <p className="text-red-500">{errors.email.message}</p>}
+          {errors.email && (
+            <p className="text-red-500">{errors.email.message}</p>
+          )}
         </div>
         <div>
           <input
@@ -53,9 +61,11 @@ export const Login = () => {
             placeholder="Contraseña"
             {...register("password", { required: "Contraseña requerida" })}
           />
-          {errors.password && <p className="text-red-500">{errors.password.message}</p>}
+          {errors.password && (
+            <p className="text-red-500">{errors.password.message}</p>
+          )}
         </div>
-        <button className="w-full bg-blue-600 text-white py-2 rounded-xl hover:bg-blue-700">
+        <button className="w-full bg-blue-600 text-white px-6 py-2 rounded-xl hover:bg-blue-700">
           Ingresar
         </button>
       </form>

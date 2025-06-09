@@ -28,19 +28,22 @@ export const Mensajes = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto">
-      <div className="flex justify-between items-center mb-4">
-        <h2 className="text-2xl font-bold">Mensajes</h2>
+    <div className="max-w-4xl mx-auto px-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 gap-4">
+        <h2 className="text-xl sm:text-2xl font-bold text-gray-800">
+          Mensajes
+        </h2>
         <button
           onClick={abrirModal}
-          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700"
+          className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition"
         >
-          <FiPlus /> Agregar
+          <FiPlus className="text-lg" />
+          <span className="text-sm sm:text-base">Agregar</span>
         </button>
       </div>
 
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white rounded-xl shadow">
+        <table className="w-full table-auto border bg-white border-gray-300 mt-4 rounded-xl shadow">
           <thead>
             <tr className="bg-gray-100">
               <th className="text-left px-4 py-2">ID</th>
@@ -49,7 +52,7 @@ export const Mensajes = () => {
           </thead>
           <tbody>
             {mensajes.map((m) => (
-              <tr key={m.id} className="border-t">
+              <tr key={m.id} className="border-t border-gray-200">
                 <td className="px-4 py-2">{m.id}</td>
                 <td className="px-4 py-2">{m.contenido}</td>
               </tr>
