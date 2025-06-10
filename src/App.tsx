@@ -27,8 +27,8 @@ function App() {
             }
           >
             <Route index element={<Navigate to="/mensajes" />} />
-            <Route path="contacto" element={<Contacto />} />
-            <Route path="mensajes" element={<Mensajes />} />
+            <Route path="/contacto" element={<Contacto />} />
+            <Route path="/mensajes" element={<Mensajes />} />
           </Route>
 
           <Route path="*" element={<Navigate to="/" />} />
