@@ -18,11 +18,11 @@ export const Login = () => {
     try {
       const res = await loginUsuario(data);
       login(res.usuario);
-      toast.success("Inicio de sesión exitoso", {
-        position: "top-right",
-        autoClose: 1000,
-      });
-      setTimeout(() => navigate("/mensaje"), 1000);
+      //toast.success("Inicio de sesión exitoso", {
+      //  position: "top-right",
+      //  autoClose: 1000,
+      //});
+      setTimeout(() => navigate("/mensaje"), 100);
     } catch (err) {
       toast.error("Usuario o clave incorrecta", {
         position: "top-right",

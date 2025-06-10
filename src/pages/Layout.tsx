@@ -17,6 +17,15 @@ export const Layout = () => {
         <div className="container mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
           <h1 className="text-xl font-bold">Sistema de Contactos</h1>
 
+          <div className="flex gap-6 items-center">
+            <Link to="/contacto" className="hover:text-blue-300 transition">
+              Contactos
+            </Link>
+            <Link to="/mensajes" className="hover:text-blue-300 transition">
+              Mensajes
+            </Link>
+          </div>
+
           <div className="flex items-center gap-4">
             <span className="text-sm sm:text-base font-medium">
               {usuario?.nombre}

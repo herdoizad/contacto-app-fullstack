@@ -3,6 +3,7 @@ import { FiPlus } from "react-icons/fi";
 import { ModalMensaje } from "./ModalMensajes";
 import type { Mensaje } from "./mensajes.types";
 import { obtenerMensajes } from "./mensajes.service";
+import { ToastContainer } from "react-toastify";
 
 export const Mensajes = () => {
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
@@ -62,6 +63,7 @@ export const Mensajes = () => {
       </div>
 
       {mostrarModal && <ModalMensaje onClose={cerrarModal} />}
+      <ToastContainer />
     </div>
   );
 };
