@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { FiPlus } from "react-icons/fi";
+import { FiEdit, FiPlus, FiTrash2 } from "react-icons/fi";
 import { ModalMensaje } from "./ModalMensajes";
 import type { Mensaje } from "./mensajes.types";
-import { obtenerMensajes } from "./mensajes.service";
-import { ToastContainer } from "react-toastify";
+import { eliminarMensaje, obtenerMensajes } from "./mensajes.service";
+import { toast, ToastContainer } from "react-toastify";
+import Swal from "sweetalert2";
 
 export const Mensajes = () => {
   const [mensajes, setMensajes] = useState<Mensaje[]>([]);
   const [mostrarModal, setMostrarModal] = useState(false);
+  const [mensajeEditando, setMensajeEditando] = useState<Mensaje | undefined>();
 
   const cargarMensajes = async () => {
     try {
@@ -18,15 +20,43 @@ export const Mensajes = () => {
     }
   };
 
+  const abrirModal = (mensaje?: Mensaje) => {
+    setMensajeEditando(mensaje);
+    setMostrarModal(true);
+  };
+
+  const cerrarModal = () => {
+    setMensajeEditando(undefined);
+    setMostrarModal(false);
+    cargarMensajes();
+  };
+
+  const confirmarEliminacion = async (id: number) => {
+    const result = await Swal.fire({
+      title: "¿Está seguro de eliminar?",
+      //text: "No podrá revertir esta acción",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Aceptar",
+      cancelButtonText: "Cancelar",
+      //width: "500px",
+    });
+
+    if (result.isConfirmed) {
+      await eliminarMensaje(id);
+      toast.success("Mensaje eliminado", {
+        position: "top-right",
+        autoClose: 1000,
+      });
+      cargarMensajes();
+    }
+  };
+
   useEffect(() => {
     cargarMensajes();
   }, []);
-
-  const abrirModal = () => setMostrarModal(true);
-  const cerrarModal = () => {
-    setMostrarModal(false);
-    cargarMensajes(); // refresca la lista después de cerrar el modal
-  };
 
   return (
     <div className="max-w-4xl mx-auto px-4">
@@ -35,7 +65,7 @@ export const Mensajes = () => {
           Mensajes
         </h2>
         <button
-          onClick={abrirModal}
+          onClick={() => abrirModal()}
           className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-xl hover:bg-green-700 transition"
         >
           <FiPlus className="text-lg" />
@@ -49,6 +79,7 @@ export const Mensajes = () => {
             <tr className="bg-gray-100">
               <th className="text-left px-4 py-2">ID</th>
               <th className="text-left px-4 py-2">Contenido</th>
+              <th className="p-2 text-center">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -56,13 +87,33 @@ export const Mensajes = () => {
               <tr key={m.id} className="border-t border-gray-200">
                 <td className="px-4 py-2">{m.id}</td>
                 <td className="px-4 py-2">{m.contenido}</td>
+                <td className="p-2 flex justify-center gap-3">
+                  <button
+                    onClick={() => abrirModal(m)}
+                    className="text-blue-600 hover:text-blue-800"
+                  >
+                    <FiEdit />
+                  </button>
+                  <button
+                    onClick={() => confirmarEliminacion(m.id)}
+                    className="text-red-600 hover:text-red-800"
+                  >
+                    <FiTrash2 />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
 
-      {mostrarModal && <ModalMensaje onClose={cerrarModal} />}
+      {mostrarModal && (
+        <ModalMensaje
+          onClose={cerrarModal}
+          mensaje={mensajeEditando ?? undefined}
+        />
+      )}
+
       <ToastContainer />
     </div>
   );

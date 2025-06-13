@@ -12,3 +12,13 @@ export const crearMensaje = async (contenido: string): Promise<Mensaje> => {
   const res = await axios.post(`${API_URL}/mensaje`, { contenido });
   return res.data;
 };
+
+export const actualizarMensaje = async (id: number, contenido: string) => {
+  const res = await axios.put(`${API_URL}/mensaje/${id}`, { contenido });
+  return res.data;
+};
+
+export const eliminarMensaje = async (id: number) => {
+  const res = await axios.delete(`${API_URL}/mensaje/${id}`);
+  return res.data;
+};

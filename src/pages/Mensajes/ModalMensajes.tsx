@@ -1,27 +1,46 @@
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { crearMensaje } from "./mensajes.service";
+import { actualizarMensaje, crearMensaje } from "./mensajes.service";
 
 interface Props {
   onClose: () => void;
+  mensaje?: {
+    id: number;
+    contenido: string;
+  };
 }
 
 interface MensajeForm {
   contenido: string;
 }
 
-export const ModalMensaje = ({ onClose }: Props) => {
+export const ModalMensaje = ({ onClose, mensaje }: Props) => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<MensajeForm>();
+  } = useForm<MensajeForm>({
+    defaultValues: {
+      contenido: mensaje?.contenido || "",
+    },
+  });
 
   const onSubmit = async (data: MensajeForm) => {
     try {
-      await crearMensaje(data.contenido);
-      toast.success("Mensaje agregado");
+      if (mensaje) {
+        await actualizarMensaje(mensaje.id, data.contenido);
+        toast.success("Mensaje actualizado", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+      } else {
+        await crearMensaje(data.contenido);
+        toast.success("Mensaje creado", {
+          position: "top-right",
+          autoClose: 2000,
+        });
+      }
       reset();
       onClose();
     } catch (err) {

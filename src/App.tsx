@@ -8,7 +8,7 @@ import { AuthProvider } from "./context/AuthContext";
 import { PrivateRoute } from "./routes/PrivateRoutes";
 import { Login } from "./pages/Login/Login";
 import { Contacto } from "./pages/Contacto/Contacto";
-import { Layout } from "./pages/Layout";
+import { Layout } from "./components/Layout";
 import { Mensajes } from "./pages/Mensajes/Mensajes";
 
 function App() {
